@@ -1,0 +1,28 @@
+fmod POSITION is
+    pr INT .
+
+    sort Position .
+
+    op ((_,_)) : Int Int -> Position [ctor] .
+
+    var P : Position .
+    vars X Y : Int .
+
+    op canDown : Position -> Bool .
+    eq canDown((X, Y)) = s(X) <= 19 .
+
+    op canRight : Position -> Bool .
+    eq canRight((X, Y)) = s(Y) <= 9 .
+
+    op canLeft : Position -> Bool .
+    eq canLeft((X, Y)) = Y - 1 >= 0 .
+
+    op down : Position -> Position .
+    eq down((X, Y)) = (s(X), Y) .
+
+    op right : Position -> Position .
+    eq right((X, Y)) = (X, s(Y)) .
+    
+    op left : Position -> Position .
+    eq left((X, Y)) = (X, Y - 1) .
+endfm

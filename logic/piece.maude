@@ -1,0 +1,83 @@
+fmod PIECE is
+    pr NAT .
+    pr POSITION .
+
+    sorts Status Piece PositionList .
+    subsort Position < PositionList .
+
+    ops active inactive : -> Status [ctor] .
+
+    op _\_ : PositionList PositionList -> PositionList [ctor assoc comm] .
+
+    op [_|_] : PositionList Status -> Piece [ctor] . 
+
+    vars p1 p2 p3 p4 : Position .
+    var piece : Piece .
+    var status : Status .
+
+    op canDown : Piece -> Bool . 
+    ceq canDown([p1 \ p2 \ p3 \ p4 | status]) = true 
+        if canDown(p1) /\ canDown(p2) /\ canDown(p3) /\ canDown(p4) .
+    eq canDown([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+
+    op canRight : Piece -> Bool . 
+    ceq canRight([p1 \ p2 \ p3 \ p4 | status]) = true 
+        if canRight(p1) /\ canRight(p2) /\ canRight(p3) /\ canRight(p4) .
+    eq canRight([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+
+    op canLeft : Piece -> Bool . 
+    ceq canLeft([p1 \ p2 \ p3 \ p4 | status]) = true 
+        if canLeft(p1) /\ canLeft(p2) /\ canLeft(p3) /\ canLeft(p4) .
+    eq canLeft([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+
+    op down : Piece -> Piece .
+    ceq down([p1 \ p2 \ p3 \ p4 | status]) = 
+        [down(p1) \ down(p2) \ down(p3) \ down(p4) | status]
+        if canDown(p1) /\ canDown(p2) /\ canDown(p3) /\ canDown(p4) .
+    eq down(piece) = piece [owise] .
+    
+    op right : Piece -> Piece .
+    ceq right([p1 \ p2 \ p3 \ p4 | status]) = 
+        [right(p1) \ right(p2) \ right(p3) \ right(p4) | status] 
+        if canRight(p1) /\ canRight(p2) /\ canRight(p3) /\ canRight(p4) .
+    eq right(piece) = piece [owise] .
+    
+
+    op left : Piece -> Piece .
+    ceq left([p1 \ p2 \ p3 \ p4 | status]) = 
+        [left(p1) \ left(p2) \ left(p3) \ left(p4) | status]
+        if canLeft(p1) /\ canLeft(p2) /\ canLeft(p3) /\ canLeft(p4) .
+    eq left(piece) = piece [owise] .
+
+    op iBlock : -> Piece .
+    eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active] .
+
+    op jBlock : -> Piece .
+    eq jBlock = [(0,4) \ (1,4) \ (1,5) \ (1,6) | active] .
+
+    op lBlock : -> Piece .
+    eq lBlock = [(0,6) \ (1,4) \ (1,5) \ (1,6) | active] .
+
+    op oBlock : -> Piece .
+    eq oBlock = [(0,4) \ (0,5) \ (1,4) \ (1,5) | active] .
+
+    op sBlock : -> Piece .
+    eq sBlock = [(0,5) \ (0,6) \ (1,5) \ (1,4) | active] .
+
+    op zBlock : -> Piece .
+    eq zBlock = [(0,4) \ (0,5) \ (1,5) \ (1,6) | active] .
+
+    op tBlock : -> Piece .
+    eq tBlock = [(0,5) \ (1,4) \ (1,5) \ (1,6) | active] .
+
+    op randomPiece : Nat -> Piece .
+    eq randomPiece(0) = iBlock .
+    eq randomPiece(1) = jBlock .
+    eq randomPiece(2) = lBlock .
+    eq randomPiece(3) = oBlock .
+    eq randomPiece(4) = sBlock .
+    eq randomPiece(5) = zBlock .
+    eq randomPiece(6) = tBlock .
+
+
+endfm

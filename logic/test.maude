@@ -1,0 +1,24 @@
+load position .
+load piece .
+load board .
+load tetris .
+mod TEST is
+    pr TETRIS .
+    op position : -> Position .
+    eq position = (0,9) .
+    op piece : -> Piece .
+    eq piece = [(0,0) \ (0,1) \ (0,2) \ (0,3) | active] .
+
+    op board : -> Board .
+    eq board = [(19,5) \ (19,6) \ (19,7) \ (19,8) | active] .
+                --- / [(0,0) \ (0,1) \ (0,2) \ (0,3) | inactive] .
+    
+endm
+--- red left(position) .
+--- red down(piece) .
+--- red right(piece) .
+red canDown(board) .
+--- rew[1] { < board > | down} .
+--- red emptyBoard .
+--- red canDownPiece([(0,0), (0,1), (0,2), (0,3) | active] ) .
+q

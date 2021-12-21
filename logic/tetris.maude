@@ -1,0 +1,26 @@
+mod TETRIS is
+    pr BOARD .
+    sorts Rule Tetris .
+
+    ops right left nothing : -> Rule [ctor] .
+    op down : Nat -> Rule [ctor] .
+
+    op { <_> |_} : Board Rule -> Tetris [ctor] .
+
+    var board : Board .
+    var n : Nat .
+    rl [down] : 
+        { < board > | down(n) }
+        => 
+        { < down(board, n) > | nothing} .
+
+    rl [right] : 
+        { < board > | right}
+        => 
+        { < right(board) > | nothing} .
+
+    rl [left] : 
+        { < board > | left}
+        => 
+        { < left(board) > | nothing} .
+endm

@@ -1,0 +1,70 @@
+fmod BOARD is
+    pr PIECE .
+
+    sort Board .
+    subsort Piece < Board .
+
+    op emptyBoard : -> Board [ctor] .
+    op _/_ : Board Board -> Board [ctor assoc comm id: emptyBoard] .
+
+    vars x y : Int .
+    var positionList positionList' : PositionList .
+    var b : Board .
+    var n : Nat .
+    var piece : Piece .
+
+    op canDown : Board -> Bool .
+    eq canDown([(x, y) \ positionList | active ] / [(s(x), y) \ positionList' | inactive ] / b) 
+                = false .
+    eq canDown([positionList | active ] / b) 
+        = canDown([positionList | active ]) [owise] .
+
+    op down : Board Nat -> Board .
+    eq down([positionList | active] / b, n) =
+        if canDown([positionList | active] / b)
+        then
+            if canDown(down([positionList | active]) / b)
+            then down([positionList | active]) / b
+            else down([positionList | inactive]) / b / randomPiece(n)
+            fi
+        else
+            [positionList | inactive] / b
+        fi .
+    eq down(b, n) = initialBoard [owise] .
+    
+    op canRight : Board -> Bool .
+    eq canRight([(x, y) \ positionList | active ] / [(x, s(y)) \ positionList' | inactive ] / b) 
+                = false .
+    eq canRight([positionList | active ] / b) 
+        = canRight([positionList | active ]) [owise] .
+
+    op right : Board -> Board .
+    eq right([positionList | active] / b) =
+        if canRight([positionList | active] / b)
+        then
+            right([positionList | active]) / b
+        else
+            [positionList | active] / b
+        fi .
+    eq right(b) = b [owise] .
+
+    op canLeft : Board -> Bool .
+    eq canLeft([(x, s(y)) \ positionList | active ] / [(x, y) \ positionList' | inactive ] / b) 
+                = false .
+    eq canLeft([positionList | active ] / b) 
+        = canLeft([positionList | active ]) [owise] .
+    
+    op left : Board -> Board .
+    eq left([positionList | active] / b) =
+        if canLeft([positionList | active] / b)
+        then
+            left([positionList | active]) / b
+        else
+            [positionList | active] / b
+        fi .
+    eq left(b) = b [owise] .
+
+    op initialBoard : -> Board .
+    eq initialBoard = [(21, 21) | inactive] / randomPiece(4) .
+
+endfm

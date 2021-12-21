@@ -13,6 +13,10 @@ fmod BOARD is
     var n : Nat .
     var piece : Piece .
 
+    op inactiveInTop : Board -> Bool .
+    eq inactiveInTop([(0, y) \ positionList | inactive] / b) = true .
+    eq inactiveInTop(b) = false [owise] .
+
     op canDown : Board -> Bool .
     eq canDown([(x, y) \ positionList | active ] / [(s(x), y) \ positionList' | inactive ] / b) 
                 = false .
@@ -23,14 +27,17 @@ fmod BOARD is
     eq down([positionList | active] / b, n) =
         if canDown([positionList | active] / b)
         then
-            if canDown(down([positionList | active]) / b)
-            then down([positionList | active]) / b
-            else down([positionList | inactive]) / b / randomPiece(n)
-            fi
+            down([positionList | active]) / b
         else
             [positionList | inactive] / b
         fi .
-    eq down(b, n) = initialBoard [owise] .
+    eq down(b, n) =
+        if inactiveInTop(b) 
+        then
+            initialBoard
+        else
+            b / randomPiece(n)
+        fi [owise] .
     
     op canRight : Board -> Bool .
     eq canRight([(x, y) \ positionList | active ] / [(x, s(y)) \ positionList' | inactive ] / b) 

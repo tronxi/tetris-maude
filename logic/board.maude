@@ -40,7 +40,7 @@ fmod BOARD is
     eq countInactiveInRow(emptyBoard, n) = 0 .
 
     op deleteInactiveInRow : Board Nat -> Board .
-    eq deleteInactiveInRow(piece / b, n) = deleteInactiveInRowForPiece(piece, n) / deleteInactiveInRow(b, n) .
+    eq deleteInactiveInRow(piece / b, n) = downPieceGreaterThanRow(deleteInactiveInRowForPiece(piece, n),n) / deleteInactiveInRow(b, n) .
     eq deleteInactiveInRow(emptyBoard, n) = emptyBoard .
 
     op canDown : Board -> Bool .

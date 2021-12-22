@@ -7,7 +7,7 @@ mod TEST is
     op position : -> Position .
     eq position = (0,9) .
     op piece : -> Piece .
-    eq piece = [(19,5) \ (19,6) \ (19,7) \ (19,8) | inactive] .
+    eq piece = [(10,5) \ (10,6) \ (9,7) \ (9,8) | inactive] .
 
     op board : -> Board .
     eq board = [(19,5) \ (19,6) \ (18,7) \ (18,8) | inactive]
@@ -21,7 +21,8 @@ endm
 --- red right(piece) .
 --- red canDown(board) .
 --- red countInactiveInRowForPiece(piece, 19) .
-red deleteInactiveInRow(board, 19) .
+red downPieceGreaterThanRow(piece, 10) .
+--- red deleteInactiveInRow(board, 19) .
 --- rew[1] { < board > | down} .
 --- red emptyBoard .
 --- red canDownPiece([(0,0), (0,1), (0,2), (0,3) | active] ) .

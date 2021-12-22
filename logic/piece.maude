@@ -12,11 +12,11 @@ fmod PIECE is
     op [_|_] : PositionList Status -> Piece [ctor] . 
 
     vars p1 p2 p3 p4 : Position .
-    var positionList : PositionList .
+    var positionList positionList' : PositionList .
     var piece : Piece .
     var status : Status .
     var n : Nat .
-    vars x y : Nat .
+    vars x y x2 y2 x3 y3 x4 y4 : Nat .
     var total : Nat .
 
     op canDown : Piece -> Bool . 
@@ -62,6 +62,21 @@ fmod PIECE is
     eq deleteInactiveInRowForPiece([(x, y) \ positionList | inactive], x) =
         deleteInactiveInRowForPiece([positionList | inactive], x) .
     eq deleteInactiveInRowForPiece(piece, x) = piece [owise] .
+
+    op downPieceGreaterThanRow : Piece Nat -> Piece .
+    eq downPieceGreaterThanRow([positionList | inactive], n) =
+        [ downPositionsGreaterThanRow(positionList, emptyPositionList, n) | inactive] .
+
+    op downPositionsGreaterThanRow : PositionList PositionList Nat -> PositionList .
+    eq downPositionsGreaterThanRow((x,y) \ positionList, positionList', n) =
+        if x < n
+        then 
+            downPositionsGreaterThanRow(positionList, (x + 1,y) \ positionList', n)
+        else 
+            downPositionsGreaterThanRow(positionList, (x ,y) \ positionList', n)
+        fi .
+    eq downPositionsGreaterThanRow(emptyPositionList, positionList', n) =
+        positionList' .
 
     op iBlock : -> Piece .
     eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active] .

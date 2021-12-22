@@ -16,7 +16,7 @@ fmod PIECE is
     var piece : Piece .
     var status : Status .
     var n : Nat .
-    vars x y x2 y2 x3 y3 x4 y4 : Nat .
+    vars x y : Nat .
     var total : Nat .
 
     op canDown : Piece -> Bool . 

@@ -17,7 +17,7 @@ class Interface():
         self.root.bind("<Left>",self.left)
         self.root.bind("<space>",self.downAll)
         self.initialTerm = "{ < ${board} > | ${rule} }"
-        self.maudeBoard = "[(21, 21) | inactive] / randomPiece(4)"
+        self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(randint(0, 6)) + ")"
         self.tetris = maude.getModule('TETRIS')
         self.timer = RepeatedTimer(1, self.down, None)
         seed(1)
@@ -30,12 +30,12 @@ class Interface():
         self.root.mainloop()
     
     def down(self, event):
-        command = "down(" + str(randint(0, 6)) + ")"
-        self.execute(command)
+        rule = "down(" + str(randint(0, 6)) + ")"
+        self.execute(rule)
 
     def downAll(self, event):
-        command = "downAll(" + str(randint(0, 6)) + ")"
-        self.execute(command)
+        rule = "downAll(" + str(randint(0, 6)) + ")"
+        self.execute(rule)
 
     def right(self, event):
         self.execute("right")

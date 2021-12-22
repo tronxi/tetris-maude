@@ -9,12 +9,13 @@ class Interface():
         maude.init()
         maude.load("../logic/loads.maude")
         self.root = Tk()
-        self.root.geometry('550x1000')
+        self.root.geometry('420x760')
         self.root.configure(background = 'beige')
         self.root.title('Tetris');
         self.root.bind("<Down>",self.down)
         self.root.bind("<Right>",self.right)
         self.root.bind("<Left>",self.left)
+        self.root.bind("<space>",self.downAll)
         self.initialTerm = "{ < ${board} > | ${rule} }"
         self.maudeBoard = "[(21, 21) | inactive] / randomPiece(4)"
         self.tetris = maude.getModule('TETRIS')
@@ -30,6 +31,10 @@ class Interface():
     
     def down(self, event):
         command = "down(" + str(randint(0, 6)) + ")"
+        self.execute(command)
+
+    def downAll(self, event):
+        command = "downAll(" + str(randint(0, 6)) + ")"
         self.execute(command)
 
     def right(self, event):
@@ -57,11 +62,12 @@ class Interface():
             status = pieceSplit[1].replace(" ", "").replace("]", "")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
             for position in positions:
-                x, y = position.replace("(", "").replace(")", "").split(",")
-                x = int(x)
-                y = int(y)
-                if x <= 19 and y <= 9:
-                    newBoard[x][y] = status
+                if position != "emptyPositionList" :
+                    x, y = position.replace("(", "").replace(")", "").split(",")
+                    x = int(x)
+                    y = int(y)
+                    if x <= 19 and y <= 9:
+                        newBoard[x][y] = status
         return newBoard
     
     def paint(self, board):

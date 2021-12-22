@@ -17,6 +17,32 @@ fmod BOARD is
     eq inactiveInTop([(0, y) \ positionList | inactive] / b) = true .
     eq inactiveInTop(b) = false [owise] .
 
+    op performDelete : Board Nat -> Board .
+    eq performDelete(b, n) =
+        if n < 20
+        then
+            performDelete(performDeleteLine(b, n), s(n))
+        else
+            b
+        fi .
+
+    op performDeleteLine : Board Nat -> Board .
+    eq performDeleteLine(b, n) =
+        if countInactiveInRow(b, n) == 10
+        then
+            deleteInactiveInRow(b, n)
+        else
+            b
+        fi .
+
+    op countInactiveInRow : Board Nat -> Nat .
+    eq countInactiveInRow(piece / b, n) = countInactiveInRowForPiece(piece, n) + countInactiveInRow(b, n) .
+    eq countInactiveInRow(emptyBoard, n) = 0 .
+
+    op deleteInactiveInRow : Board Nat -> Board .
+    eq deleteInactiveInRow(piece / b, n) = deleteInactiveInRowForPiece(piece, n) / deleteInactiveInRow(b, n) .
+    eq deleteInactiveInRow(emptyBoard, n) = emptyBoard .
+
     op canDown : Board -> Bool .
     eq canDown([(x, y) \ positionList | active ] / [(s(x), y) \ positionList' | inactive ] / b) 
                 = false .
@@ -36,8 +62,16 @@ fmod BOARD is
         then
             initialBoard
         else
-            b / randomPiece(n)
+            performDelete(b, 0) / randomPiece(n)
         fi [owise] .
+
+    op downAll : Board Nat -> Board .
+    eq downAll(b, n) = 
+        if canDown(b)
+        then
+            downAll(down(b, n), n)
+        else b
+        fi .
     
     op canRight : Board -> Bool .
     eq canRight([(x, y) \ positionList | active ] / [(x, s(y)) \ positionList' | inactive ] / b) 

@@ -3,7 +3,7 @@ mod TETRIS is
     sorts Rule Tetris .
 
     ops right left nothing : -> Rule [ctor] .
-    op down : Nat -> Rule [ctor] .
+    ops down downAll : Nat -> Rule [ctor] .
 
     op { <_> |_} : Board Rule -> Tetris [ctor] .
 
@@ -13,6 +13,11 @@ mod TETRIS is
         { < board > | down(n) }
         => 
         { < down(board, n) > | nothing} .
+    
+    rl [downAll] : 
+        { < board > | downAll(n) }
+        => 
+        { < downAll(board, n) > | nothing} .
 
     rl [right] : 
         { < board > | right}

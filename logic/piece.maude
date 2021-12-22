@@ -6,14 +6,18 @@ fmod PIECE is
     subsort Position < PositionList .
 
     ops active inactive : -> Status [ctor] .
-
-    op _\_ : PositionList PositionList -> PositionList [ctor assoc comm] .
+    op emptyPositionList : -> PositionList [ctor] .
+    op _\_ : PositionList PositionList -> PositionList [ctor assoc comm id: emptyPositionList] .
 
     op [_|_] : PositionList Status -> Piece [ctor] . 
 
     vars p1 p2 p3 p4 : Position .
+    var positionList : PositionList .
     var piece : Piece .
     var status : Status .
+    var n : Nat .
+    vars x y : Nat .
+    var total : Nat .
 
     op canDown : Piece -> Bool . 
     ceq canDown([p1 \ p2 \ p3 \ p4 | status]) = true 
@@ -48,6 +52,16 @@ fmod PIECE is
         [left(p1) \ left(p2) \ left(p3) \ left(p4) | status]
         if canLeft(p1) /\ canLeft(p2) /\ canLeft(p3) /\ canLeft(p4) .
     eq left(piece) = piece [owise] .
+
+    op countInactiveInRowForPiece : Piece Nat -> Nat .
+    eq countInactiveInRowForPiece([(x, y) \ positionList | inactive], x) =
+        s(countInactiveInRowForPiece([positionList | inactive], x)) .
+    eq countInactiveInRowForPiece(piece, x) = 0 [owise] .
+
+    op deleteInactiveInRowForPiece : Piece Nat -> Piece .
+    eq deleteInactiveInRowForPiece([(x, y) \ positionList | inactive], x) =
+        deleteInactiveInRowForPiece([positionList | inactive], x) .
+    eq deleteInactiveInRowForPiece(piece, x) = piece [owise] .
 
     op iBlock : -> Piece .
     eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active] .

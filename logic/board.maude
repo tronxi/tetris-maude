@@ -70,7 +70,7 @@ fmod BOARD is
         if canDown(b)
         then
             downAll(down(b, n), n)
-        else b
+        else down(b,n)
         fi .
     
     op canRight : Board -> Bool .

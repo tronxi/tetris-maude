@@ -1,8 +1,11 @@
 fmod POSITION is
     pr INT .
 
-    sort Position .
+    sorts Position PositionList .
+    subsort Position < PositionList .
 
+    op emptyPositionList : -> PositionList [ctor] .
+    op _\_ : PositionList PositionList -> PositionList [ctor assoc comm id: emptyPositionList] .
     op ((_,_)) : Int Int -> Position [ctor] .
 
     var P : Position .

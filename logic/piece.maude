@@ -2,13 +2,9 @@ fmod PIECE is
     pr NAT .
     pr POSITION .
 
-    sorts Status Piece PositionList .
-    subsort Position < PositionList .
+    sorts Status Piece .
 
     ops active inactive : -> Status [ctor] .
-    op emptyPositionList : -> PositionList [ctor] .
-    op _\_ : PositionList PositionList -> PositionList [ctor assoc comm id: emptyPositionList] .
-
     op [_|_] : PositionList Status -> Piece [ctor] . 
 
     vars p1 p2 p3 p4 : Position .

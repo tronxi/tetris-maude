@@ -15,7 +15,7 @@ class Interface():
         self.root.bind("<Down>",self.down)
         self.root.bind("<Right>",self.right)
         self.root.bind("<Left>",self.left)
-        self.root.bind("<Up>",self.clock)
+        self.root.bind("<Up>",self.clockwise)
         self.root.bind("<space>",self.downAll)
         self.initialTerm = "{ < ${board} > | ${rule} }"
         self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(4) + ")"
@@ -44,8 +44,8 @@ class Interface():
     def left(self, event):
         self.execute("left")
     
-    def clock(self, event):
-        self.execute("clock")
+    def clockwise(self, event):
+        self.execute("clockwise")
     
     def execute(self, rule):
         term = self.initialTerm.replace("${board}", self.maudeBoard).replace("${rule}", rule)

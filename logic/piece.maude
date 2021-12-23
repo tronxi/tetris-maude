@@ -79,9 +79,9 @@ fmod PIECE is
     eq downPositionsGreaterThanRow(emptyPositionList, positionList', n) =
         positionList' .
 
-    op rotateClock : Piece -> Piece .
-    eq rotateClock ([positionList | active]) = 
-        [clock(positionList) | active] .
+    op rotateClockwise : Piece -> Piece .
+    eq rotateClockwise ([positionList | active]) = 
+        [clockwise(positionList) | active] .
 
     op iBlock : -> Piece .
     eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active] .

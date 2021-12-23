@@ -110,11 +110,11 @@ fmod BOARD is
         = false .
     eq canRotate(b, piece) = inRange(piece) [owise] .
 
-    op rotateClock : Board -> Board .
-    eq rotateClock([positionList | active] / b) =
-        if canRotate([positionList | active] / b, rotateClock([positionList | active]))
+    op rotateClockwise : Board -> Board .
+    eq rotateClockwise([positionList | active] / b) =
+        if canRotate([positionList | active] / b, rotateClockwise([positionList | active]))
         then
-            rotateClock([positionList | active]) / b 
+            rotateClockwise([positionList | active]) / b 
         else 
             [positionList | active] / b
         fi .

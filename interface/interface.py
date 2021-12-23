@@ -62,7 +62,7 @@ class Interface():
             status = pieceSplit[1].replace(" ", "").replace("]", "")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
             for position in positions:
-                if position != "emptyPositionList" :
+                if position != "emptyPositionList" and not position.startswith("if"):
                     x, y = position.replace("(", "").replace(")", "").split(",")
                     x = int(x)
                     y = int(y)

@@ -43,11 +43,7 @@ fmod POSITION is
     op clockwise : PositionList -> PositionList .
     eq clockwise(positionList) = orderedToList(clockwiseRotation(setUnorderd(positionList, emptyOrderPositionList)), emptyPositionList) .
 
-    --- oBlock
     op clockwiseRotation : OrderedPostionList -> OrderedPostionList .
-    eq clockwiseRotation((x,y) % (x, s(y)) % (s(x), y) % (s(x),s(y))) =
-        (x,y) % (x,y + 1) % (x + 1, y) % (x + 1,y + 1) .
-
     --- iBlock
     eq clockwiseRotation((x,y) % (x, s(y)) % (x, s(s(y))) % (x,s(s(s(y))))) =
         (x - 2,s(s(y))) % (x - 1, s(s(y))) % (x, s(s(y))) % (s(x),s(s(y))) .
@@ -58,6 +54,7 @@ fmod POSITION is
     --- sBlock
     eq clockwiseRotation((x,s(y)) % (x, s(s(y))) % (s(x), y) % (s(x), s(y) )) =
         (x - 1, y) % (x, y) % (x, s(y)) % (s(x), s(y)) .
+        
     --- default
     eq clockwiseRotation(orderedPostionList) =
         orderedPostionList [owise] .

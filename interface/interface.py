@@ -18,7 +18,7 @@ class Interface():
         self.root.bind("<Up>",self.clock)
         self.root.bind("<space>",self.downAll)
         self.initialTerm = "{ < ${board} > | ${rule} }"
-        self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(0) + ")"
+        self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(4) + ")"
         self.tetris = maude.getModule('TETRIS')
         self.timer = RepeatedTimer(1, self.down, None)
         seed(1)
@@ -48,7 +48,6 @@ class Interface():
         self.execute("clock")
     
     def execute(self, rule):
-        print(rule)
         term = self.initialTerm.replace("${board}", self.maudeBoard).replace("${rule}", rule)
         parseTerm = self.tetris.parseTerm(term)
         parseTerm.rewrite(1)

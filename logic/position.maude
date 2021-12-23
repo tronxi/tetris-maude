@@ -1,9 +1,10 @@
 fmod POSITION is
     pr INT .
 
-    sorts Position PositionList OrderedPostionList .
+    sorts Position PositionList OrderedPostionList MyInt .
     subsort Position < PositionList .
     subsort Position < OrderedPostionList .
+    subsort MyInt < Int .
 
     op emptyPositionList : -> PositionList [ctor] .
     op _\_ : PositionList PositionList -> PositionList [ctor assoc comm id: emptyPositionList] .
@@ -56,11 +57,14 @@ fmod POSITION is
         (s(s(x)), y - 2) % (s(s(x)), y - 1) % (s(s(x)), y) % (s(s(x)), s(y)) .
 
     --- sBlock
-    --- eq clockOrdered((s(x),s(y)) % (s(x)) % () % ()) =
-    ---     () % () % () % () .
+    eq clockOrdered((x,s(y)) % (x, s(s(y))) % (s(x), y) % (s(x), s(y) )) =
+        (x - 1, y) % (x, y) % (x, s(y)) % (s(x), s(y)) .
     --- default
     eq clockOrdered(orderedPostionList) =
         orderedPostionList [owise] .
+    
+    op less : Int -> Int .
+    eq less(x) = 4 .
 
     op setUnorderd : PositionList OrderedPostionList -> OrderedPostionList .
     eq setUnorderd((x,y) \ positionList, orderedPostionList) = 

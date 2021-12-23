@@ -1,10 +1,9 @@
 fmod POSITION is
     pr INT .
 
-    sorts Position PositionList OrderedPostionList MyInt .
+    sorts Position PositionList OrderedPostionList  .
     subsort Position < PositionList .
     subsort Position < OrderedPostionList .
-    subsort MyInt < Int .
 
     op emptyPositionList : -> PositionList [ctor] .
     op _\_ : PositionList PositionList -> PositionList [ctor assoc comm id: emptyPositionList] .

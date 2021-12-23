@@ -2,12 +2,12 @@ from tkinter import *
 import maude
 from random import seed
 from random import randint
-from repeatedTimer import RepeatedTimer
+from interface.repeatedTimer import RepeatedTimer
 
 class Interface():
     def __init__(self):
         maude.init()
-        maude.load("../logic/loads.maude")
+        maude.load("logic/loads.maude")
         self.root = Tk()
         self.root.geometry('420x760')
         self.root.configure(background = 'beige')

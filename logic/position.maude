@@ -1,31 +1,74 @@
 fmod POSITION is
     pr INT .
 
-    sorts Position PositionList .
+    sorts Position PositionList OrderedPostionList .
     subsort Position < PositionList .
+    subsort Position < OrderedPostionList .
 
     op emptyPositionList : -> PositionList [ctor] .
     op _\_ : PositionList PositionList -> PositionList [ctor assoc comm id: emptyPositionList] .
     op ((_,_)) : Int Int -> Position [ctor] .
 
+    op emptyOrderPositionList : -> OrderedPostionList [ctor] .
+    op _%_ : OrderedPostionList OrderedPostionList -> OrderedPostionList [ctor assoc id: emptyOrderPositionList].
+
     var P : Position .
-    vars X Y : Int .
+    vars x y : Int .
+    vars positionList positionList' : PositionList .
+    vars orderedPostionList : OrderedPostionList .
 
     op canDown : Position -> Bool .
-    eq canDown((X, Y)) = s(X) <= 19 .
+    eq canDown((x, y)) = s(x) <= 19 .
 
     op canRight : Position -> Bool .
-    eq canRight((X, Y)) = s(Y) <= 9 .
+    eq canRight((x, y)) = s(y) <= 9 .
 
     op canLeft : Position -> Bool .
-    eq canLeft((X, Y)) = Y - 1 >= 0 .
+    eq canLeft((x, y)) = y - 1 >= 0 .
 
     op down : Position -> Position .
-    eq down((X, Y)) = (s(X), Y) .
+    eq down((x, y)) = (s(x), y) .
 
     op right : Position -> Position .
-    eq right((X, Y)) = (X, s(Y)) .
+    eq right((x, y)) = (x, s(y)) .
     
     op left : Position -> Position .
-    eq left((X, Y)) = (X, Y - 1) .
+    eq left((x, y)) = (x, y - 1) .
+
+    op inRange : Position -> Bool .
+    ceq inRange((x,y)) = true
+        if x >= 0 /\ x <= 19 /\ y >= 0 /\ y <= 9 .
+    eq inRange((x,y)) = false [owise] .
+
+    op clock : PositionList -> PositionList .
+    eq clock(positionList) = orderedToList(clockOrdered(setUnorderd(positionList, emptyOrderPositionList)), emptyPositionList) .
+
+    --- oBlock
+    op clockOrdered : OrderedPostionList -> OrderedPostionList .
+    eq clockOrdered((x,y) % (x, s(y)) % (s(x), y) % (s(x),s(y))) =
+        (x,y) % (x,y + 1) % (x + 1, y) % (x + 1,y + 1) .
+
+    --- iBlock
+    eq clockOrdered((x,y) % (x, s(y)) % (x, s(s(y))) % (x,s(s(s(y))))) =
+        (x - 2,s(s(y))) % (x - 1, s(s(y))) % (x, s(s(y))) % (s(x),s(s(y))) .
+
+    eq clockOrdered((x,y) % (s(x), y) % (s(s(x)), y) % (s(s(s(x))),y)) =
+        (s(s(x)), y - 2) % (s(s(x)), y - 1) % (s(s(x)), y) % (s(s(x)), s(y)) .
+
+    --- sBlock
+    --- eq clockOrdered((s(x),s(y)) % (s(x)) % () % ()) =
+    ---     () % () % () % () .
+    --- default
+    eq clockOrdered(orderedPostionList) =
+        orderedPostionList [owise] .
+
+    op setUnorderd : PositionList OrderedPostionList -> OrderedPostionList .
+    eq setUnorderd((x,y) \ positionList, orderedPostionList) = 
+        setUnorderd(positionList, orderedPostionList % (x, y)) .
+    eq setUnorderd(emptyPositionList, orderedPostionList) = orderedPostionList .
+
+    op orderedToList : OrderedPostionList PositionList -> PositionList .
+    eq orderedToList((x,y) % orderedPostionList, positionList) =
+        orderedToList(orderedPostionList, positionList \ (x, y)) .
+    eq orderedToList(emptyOrderPositionList, positionList) = positionList [owise] .
 endfm

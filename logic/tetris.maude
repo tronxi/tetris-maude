@@ -2,7 +2,7 @@ mod TETRIS is
     pr BOARD .
     sorts Rule Tetris .
 
-    ops right left nothing : -> Rule [ctor] .
+    ops right left nothing clock : -> Rule [ctor] .
     ops down downAll : Nat -> Rule [ctor] .
 
     op { <_> |_} : Board Rule -> Tetris [ctor] .
@@ -28,4 +28,9 @@ mod TETRIS is
         { < board > | left}
         => 
         { < left(board) > | nothing} .
+    
+    rl [clock] : 
+        { < board > | clock}
+        => 
+        { < rotateClock(board) > | nothing} .
 endm

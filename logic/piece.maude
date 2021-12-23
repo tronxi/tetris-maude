@@ -30,6 +30,11 @@ fmod PIECE is
         if canLeft(p1) /\ canLeft(p2) /\ canLeft(p3) /\ canLeft(p4) .
     eq canLeft([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
 
+    op inRange : Piece -> Bool .
+    ceq inRange([p1 \ p2 \ p3 \ p4 | status]) = true
+        if inRange(p1) /\ inRange(p2) /\ inRange(p3) /\ inRange(p4) .
+    eq inRange([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+
     op down : Piece -> Piece .
     ceq down([p1 \ p2 \ p3 \ p4 | status]) = 
         [down(p1) \ down(p2) \ down(p3) \ down(p4) | status]
@@ -73,6 +78,10 @@ fmod PIECE is
         fi .
     eq downPositionsGreaterThanRow(emptyPositionList, positionList', n) =
         positionList' .
+
+    op rotateClock : Piece -> Piece .
+    eq rotateClock ([positionList | active]) = 
+        [clock(positionList) | active] .
 
     op iBlock : -> Piece .
     eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active] .

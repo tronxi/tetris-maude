@@ -15,9 +15,10 @@ class Interface():
         self.root.bind("<Down>",self.down)
         self.root.bind("<Right>",self.right)
         self.root.bind("<Left>",self.left)
+        self.root.bind("<Up>",self.clock)
         self.root.bind("<space>",self.downAll)
         self.initialTerm = "{ < ${board} > | ${rule} }"
-        self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(randint(0, 6)) + ")"
+        self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(0) + ")"
         self.tetris = maude.getModule('TETRIS')
         self.timer = RepeatedTimer(1, self.down, None)
         seed(1)
@@ -43,7 +44,11 @@ class Interface():
     def left(self, event):
         self.execute("left")
     
+    def clock(self, event):
+        self.execute("clock")
+    
     def execute(self, rule):
+        print(rule)
         term = self.initialTerm.replace("${board}", self.maudeBoard).replace("${rule}", rule)
         parseTerm = self.tetris.parseTerm(term)
         parseTerm.rewrite(1)
@@ -62,7 +67,7 @@ class Interface():
             status = pieceSplit[1].replace(" ", "").replace("]", "")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
             for position in positions:
-                if position != "emptyPositionList" and not position.startswith("if"):
+                if position != "emptyPositionList" and  position.startswith("("):
                     x, y = position.replace("(", "").replace(")", "").split(",")
                     x = int(x)
                     y = int(y)

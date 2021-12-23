@@ -6,6 +6,10 @@ mod TEST is
     pr TETRIS .
     op position : -> Position .
     eq position = (0,9) .
+
+    op positionList : -> PositionList .
+    eq positionList = (10,5) \ (10,6) \ (9,6) \ (8,8) \ (10,4) .
+
     op piece : -> Piece .
     eq piece = [(10,5) \ (10,6) \ (9,7) \ (9,8) | inactive] .
 
@@ -21,9 +25,11 @@ endm
 --- red right(piece) .
 --- red canDown(board) .
 --- red countInactiveInRowForPiece(piece, 19) .
-red downPieceGreaterThanRow(piece, 10) .
+--- red downPieceGreaterThanRow(piece, 10) .
 --- red deleteInactiveInRow(board, 19) .
 --- rew[1] { < board > | down} .
 --- red emptyBoard .
 --- red canDownPiece([(0,0), (0,1), (0,2), (0,3) | active] ) .
+red clockOrdered((0,4) % (0,5) % (1,4) % (1,5)) .
+red clockOrdered(setUnorderd((0,3) \ (0,4) \ (0,5) \ (0,6), emptyOrderPositionList)) .
 q

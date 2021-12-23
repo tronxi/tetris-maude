@@ -105,6 +105,20 @@ fmod BOARD is
         fi .
     eq left(b) = b [owise] .
 
+    op canRotate : Board Piece -> Bool .
+    eq canRotate([(x,y) \ positionList | inactive ] / b, [(x,y) \ positionList' | active]) 
+        = false .
+    eq canRotate(b, piece) = inRange(piece) [owise] .
+
+    op rotateClock : Board -> Board .
+    eq rotateClock([positionList | active] / b) =
+        if canRotate([positionList | active] / b, rotateClock([positionList | active]))
+        then
+            rotateClock([positionList | active]) / b 
+        else 
+            [positionList | active] / b
+        fi .
+
     op initialBoard : -> Board .
     eq initialBoard = [(21, 21) | inactive] / randomPiece(4) .
 

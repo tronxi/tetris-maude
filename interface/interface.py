@@ -20,7 +20,7 @@ class Interface():
         self.root.bind("<Escape>", self.pause)
         self.pause = False
         self.initialTerm = "{ < ${board} > | ${rule} }"
-        self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(randint(0, 6)) + ")"
+        self.maudeBoard = "randomPiece(" + str(randint(0, 6)) + ")"
         self.tetris = maude.getModule('TETRIS')
         self.timer = RepeatedTimer(0.7, self.down, None)
         seed(1)

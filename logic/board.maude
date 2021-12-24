@@ -120,6 +120,6 @@ fmod BOARD is
         fi .
 
     op initialBoard : -> Board .
-    eq initialBoard = [(21, 21) | inactive] / randomPiece(4) .
+    eq initialBoard = randomPiece(4) .
 
 endfm

@@ -9,6 +9,7 @@ mod TETRIS is
 
     var board : Board .
     var n : Nat .
+
     rl [down] : 
         { < board > | down(n) }
         => 

@@ -12,9 +12,10 @@ fmod BOARD is
     var b : Board .
     var n : Nat .
     var piece : Piece .
+    var pieceType pieceType' : PieceType .
 
     op inactiveInTop : Board -> Bool .
-    eq inactiveInTop([(0, y) \ positionList | inactive] / b) = true .
+    eq inactiveInTop([(0, y) \ positionList | inactive | pieceType] / b) = true .
     eq inactiveInTop(b) = false [owise] .
 
     op performDelete : Board Nat -> Board .
@@ -44,18 +45,18 @@ fmod BOARD is
     eq deleteInactiveInRow(emptyBoard, n) = emptyBoard .
 
     op canDown : Board -> Bool .
-    eq canDown([(x, y) \ positionList | active ] / [(s(x), y) \ positionList' | inactive ] / b) 
+    eq canDown([(x, y) \ positionList | active | pieceType] / [(s(x), y) \ positionList' | inactive | pieceType'] / b) 
                 = false .
-    eq canDown([positionList | active ] / b) 
-        = canDown([positionList | active ]) [owise] .
+    eq canDown([positionList | active | pieceType] / b) 
+        = canDown([positionList | active | pieceType]) [owise] .
 
     op down : Board Nat -> Board .
-    eq down([positionList | active] / b, n) =
-        if canDown([positionList | active] / b)
+    eq down([positionList | active | pieceType] / b, n) =
+        if canDown([positionList | active | pieceType] / b)
         then
-            down([positionList | active]) / b
+            down([positionList | active | pieceType]) / b
         else
-            [positionList | inactive] / b
+            [positionList | inactive | pieceType] / b
         fi .
     eq down(b, n) =
         if inactiveInTop(b) 
@@ -74,49 +75,49 @@ fmod BOARD is
         fi .
     
     op canRight : Board -> Bool .
-    eq canRight([(x, y) \ positionList | active ] / [(x, s(y)) \ positionList' | inactive ] / b) 
+    eq canRight([(x, y) \ positionList | active | pieceType] / [(x, s(y)) \ positionList' | inactive | pieceType'] / b) 
                 = false .
-    eq canRight([positionList | active ] / b) 
-        = canRight([positionList | active ]) [owise] .
+    eq canRight([positionList | active  | pieceType] / b) 
+        = canRight([positionList | active  | pieceType]) [owise] .
 
     op right : Board -> Board .
-    eq right([positionList | active] / b) =
-        if canRight([positionList | active] / b)
+    eq right([positionList | active | pieceType] / b) =
+        if canRight([positionList | active | pieceType] / b)
         then
-            right([positionList | active]) / b
+            right([positionList | active | pieceType]) / b
         else
-            [positionList | active] / b
+            [positionList | active | pieceType] / b
         fi .
     eq right(b) = b [owise] .
 
     op canLeft : Board -> Bool .
-    eq canLeft([(x, s(y)) \ positionList | active ] / [(x, y) \ positionList' | inactive ] / b) 
+    eq canLeft([(x, s(y)) \ positionList | active | pieceType] / [(x, y) \ positionList' | inactive | pieceType'] / b) 
                 = false .
-    eq canLeft([positionList | active ] / b) 
-        = canLeft([positionList | active ]) [owise] .
+    eq canLeft([positionList | active | pieceType] / b) 
+        = canLeft([positionList | active | pieceType]) [owise] .
     
     op left : Board -> Board .
-    eq left([positionList | active] / b) =
-        if canLeft([positionList | active] / b)
+    eq left([positionList | active | pieceType] / b) =
+        if canLeft([positionList | active | pieceType] / b)
         then
-            left([positionList | active]) / b
+            left([positionList | active | pieceType]) / b
         else
-            [positionList | active] / b
+            [positionList | active | pieceType] / b
         fi .
     eq left(b) = b [owise] .
 
     op canRotate : Board Piece -> Bool .
-    eq canRotate([(x,y) \ positionList | inactive ] / b, [(x,y) \ positionList' | active]) 
+    eq canRotate([(x,y) \ positionList | inactive | pieceType] / b, [(x,y) \ positionList' | active | pieceType']) 
         = false .
     eq canRotate(b, piece) = inRange(piece) [owise] .
 
     op rotateClockwise : Board -> Board .
-    eq rotateClockwise([positionList | active] / b) =
-        if canRotate([positionList | active] / b, rotateClockwise([positionList | active]))
+    eq rotateClockwise([positionList | active | pieceType] / b) =
+        if canRotate([positionList | active | pieceType] / b, rotateClockwise([positionList | active | pieceType]))
         then
-            rotateClockwise([positionList | active]) / b 
+            rotateClockwise([positionList | active | pieceType]) / b 
         else 
-            [positionList | active] / b
+            [positionList | active | pieceType] / b
         fi .
 
     op initialBoard : -> Board .

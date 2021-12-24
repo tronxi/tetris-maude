@@ -2,10 +2,11 @@ fmod PIECE is
     pr NAT .
     pr POSITION .
 
-    sorts Status Piece .
-
+    sorts Status Piece PieceType .
+    
+    ops iType jType lType oType sType zType tType : -> PieceType [ctor] .
     ops active inactive : -> Status [ctor] .
-    op [_|_] : PositionList Status -> Piece [ctor] . 
+    op [_|_|_] : PositionList Status PieceType -> Piece [ctor] . 
 
     vars p1 p2 p3 p4 : Position .
     var positionList positionList' : PositionList .
@@ -14,59 +15,60 @@ fmod PIECE is
     var n : Nat .
     vars x y : Nat .
     var total : Nat .
+    var pieceType : PieceType .
 
     op canDown : Piece -> Bool . 
-    ceq canDown([p1 \ p2 \ p3 \ p4 | status]) = true 
+    ceq canDown([p1 \ p2 \ p3 \ p4 | status | pieceType]) = true 
         if canDown(p1) /\ canDown(p2) /\ canDown(p3) /\ canDown(p4) .
-    eq canDown([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+    eq canDown([p1 \ p2 \ p3 \ p4 | status | pieceType]) = false [owise] .
 
     op canRight : Piece -> Bool . 
-    ceq canRight([p1 \ p2 \ p3 \ p4 | status]) = true 
+    ceq canRight([p1 \ p2 \ p3 \ p4 | status | pieceType]) = true 
         if canRight(p1) /\ canRight(p2) /\ canRight(p3) /\ canRight(p4) .
-    eq canRight([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+    eq canRight([p1 \ p2 \ p3 \ p4 | status | pieceType]) = false [owise] .
 
     op canLeft : Piece -> Bool . 
-    ceq canLeft([p1 \ p2 \ p3 \ p4 | status]) = true 
+    ceq canLeft([p1 \ p2 \ p3 \ p4 | status | pieceType]) = true 
         if canLeft(p1) /\ canLeft(p2) /\ canLeft(p3) /\ canLeft(p4) .
-    eq canLeft([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+    eq canLeft([p1 \ p2 \ p3 \ p4 | status | pieceType]) = false [owise] .
 
     op inRange : Piece -> Bool .
-    ceq inRange([p1 \ p2 \ p3 \ p4 | status]) = true
+    ceq inRange([p1 \ p2 \ p3 \ p4 | status | pieceType]) = true
         if inRange(p1) /\ inRange(p2) /\ inRange(p3) /\ inRange(p4) .
-    eq inRange([p1 \ p2 \ p3 \ p4 | status]) = false [owise] .
+    eq inRange([p1 \ p2 \ p3 \ p4 | status | pieceType]) = false [owise] .
 
     op down : Piece -> Piece .
-    ceq down([p1 \ p2 \ p3 \ p4 | status]) = 
-        [down(p1) \ down(p2) \ down(p3) \ down(p4) | status]
+    ceq down([p1 \ p2 \ p3 \ p4 | status | pieceType]) = 
+        [down(p1) \ down(p2) \ down(p3) \ down(p4) | status | pieceType]
         if canDown(p1) /\ canDown(p2) /\ canDown(p3) /\ canDown(p4) .
     eq down(piece) = piece [owise] .
     
     op right : Piece -> Piece .
-    ceq right([p1 \ p2 \ p3 \ p4 | status]) = 
-        [right(p1) \ right(p2) \ right(p3) \ right(p4) | status] 
+    ceq right([p1 \ p2 \ p3 \ p4 | status | pieceType]) = 
+        [right(p1) \ right(p2) \ right(p3) \ right(p4) | status | pieceType] 
         if canRight(p1) /\ canRight(p2) /\ canRight(p3) /\ canRight(p4) .
     eq right(piece) = piece [owise] .
     
 
     op left : Piece -> Piece .
-    ceq left([p1 \ p2 \ p3 \ p4 | status]) = 
-        [left(p1) \ left(p2) \ left(p3) \ left(p4) | status]
+    ceq left([p1 \ p2 \ p3 \ p4 | status | pieceType]) = 
+        [left(p1) \ left(p2) \ left(p3) \ left(p4) | status | pieceType]
         if canLeft(p1) /\ canLeft(p2) /\ canLeft(p3) /\ canLeft(p4) .
     eq left(piece) = piece [owise] .
 
     op countInactiveInRowForPiece : Piece Nat -> Nat .
-    eq countInactiveInRowForPiece([(x, y) \ positionList | inactive], x) =
-        s(countInactiveInRowForPiece([positionList | inactive], x)) .
+    eq countInactiveInRowForPiece([(x, y) \ positionList | inactive | pieceType], x) =
+        s(countInactiveInRowForPiece([positionList | inactive | pieceType], x)) .
     eq countInactiveInRowForPiece(piece, x) = 0 [owise] .
 
     op deleteInactiveInRowForPiece : Piece Nat -> Piece .
-    eq deleteInactiveInRowForPiece([(x, y) \ positionList | inactive], x) =
-        deleteInactiveInRowForPiece([positionList | inactive], x) .
+    eq deleteInactiveInRowForPiece([(x, y) \ positionList | inactive | pieceType], x) =
+        deleteInactiveInRowForPiece([positionList | inactive | pieceType], x) .
     eq deleteInactiveInRowForPiece(piece, x) = piece [owise] .
 
     op downPieceGreaterThanRow : Piece Nat -> Piece .
-    eq downPieceGreaterThanRow([positionList | inactive], n) =
-        [ downPositionsGreaterThanRow(positionList, emptyPositionList, n) | inactive] .
+    eq downPieceGreaterThanRow([positionList | inactive | pieceType], n) =
+        [ downPositionsGreaterThanRow(positionList, emptyPositionList, n) | inactive | pieceType] .
 
     op downPositionsGreaterThanRow : PositionList PositionList Nat -> PositionList .
     eq downPositionsGreaterThanRow((x,y) \ positionList, positionList', n) =
@@ -80,29 +82,29 @@ fmod PIECE is
         positionList' .
 
     op rotateClockwise : Piece -> Piece .
-    eq rotateClockwise ([positionList | active]) = 
-        [clockwise(positionList) | active] .
+    eq rotateClockwise ([positionList | active | pieceType]) = 
+        [clockwise(positionList) | active | pieceType] .
 
     op iBlock : -> Piece .
-    eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active] .
+    eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active | iType] .
 
     op jBlock : -> Piece .
-    eq jBlock = [(0,3) \ (1,3) \ (1,4) \ (1,5) | active] .
+    eq jBlock = [(0,3) \ (1,3) \ (1,4) \ (1,5) | active | jType] .
 
     op lBlock : -> Piece .
-    eq lBlock = [(0,5) \ (1,3) \ (1,4) \ (1,5) | active] .
+    eq lBlock = [(0,5) \ (1,3) \ (1,4) \ (1,5) | active | lType] .
 
     op oBlock : -> Piece .
-    eq oBlock = [(0,4) \ (0,5) \ (1,4) \ (1,5) | active] .
+    eq oBlock = [(0,4) \ (0,5) \ (1,4) \ (1,5) | active | oType] .
 
     op sBlock : -> Piece .
-    eq sBlock = [(0,5) \ (0,6) \ (1,4) \ (1,5) | active] .
+    eq sBlock = [(0,5) \ (0,6) \ (1,4) \ (1,5) | active | sType] .
 
     op zBlock : -> Piece .
-    eq zBlock = [(0,4) \ (0,5) \ (1,5) \ (1,6) | active] .
+    eq zBlock = [(0,4) \ (0,5) \ (1,5) \ (1,6) | active | zType] .
 
     op tBlock : -> Piece .
-    eq tBlock = [(0,4) \ (1,3) \ (1,4) \ (1,5) | active] .
+    eq tBlock = [(0,4) \ (1,3) \ (1,4) \ (1,5) | active | tType] .
 
     op randomPiece : Nat -> Piece .
     eq randomPiece(0) = iBlock .

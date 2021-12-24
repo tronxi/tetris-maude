@@ -11,24 +11,23 @@ mod TEST is
     eq positionList = (10,5) \ (10,6) \ (9,6) \ (8,8) \ (10,4) .
 
     op piece : -> Piece .
-    eq piece = [(10,5) \ (10,6) \ (9,7) \ (9,8) | inactive] .
+    eq piece = [(10,5) \ (10,6) \ (9,7) \ (9,8) | inactive | tType] .
 
     op board : -> Board .
-    eq board = [(19,5) \ (19,6) \ (18,7) \ (18,8) | inactive]
-                / [(19,0) \ (19,1) \ (19,2) \ (19,3) | inactive]
-                / [(19,4) \ (19,5) \ (19,6) \ (19,7) | active] .
+    eq board = [(0,5) \ (0,6) \ (0,7) \ (0,8) | active | tType]
+                / [(1,4) \ (1,5) \ (1,6) \ (1,7) | inactive | jType] .
                 --- / [(0,0) \ (0,1) \ (0,2) \ (0,3) | inactive] .
     
 endm
 --- red left(position) .
 --- red down(piece) .
 --- red right(piece) .
---- red canDown(board) .
+red canDown(board) .
 --- red countInactiveInRowForPiece(piece, 19) .
 --- red downPieceGreaterThanRow(piece, 10) .
 --- red deleteInactiveInRow(board, 19) .
 --- rew[1] { < board > | down} .
 --- red emptyBoard .
 --- red canDownPiece([(0,0), (0,1), (0,2), (0,3) | active] ) .
-red clockwiseRotation(setUnorderd((0,5) \ (1,4) \ (1,5) \ (1,6), emptyOrderPositionList)) .
+--- red clockwiseRotation(setUnorderd((0,5) \ (1,4) \ (1,5) \ (1,6), emptyOrderPositionList)) .
 q

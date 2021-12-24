@@ -11,6 +11,7 @@ class Interface():
         seed(int(time.time() * 1000))
         self.timer = RepeatedTimer(0.7, self.__down, None)
         self.performer = TetrisPerformer(initialRandom=randint(0, 6))
+        self.colors = dict({"empty": "white", "iType": "cyan", "jType": "blue", "lType": "orange", "oType": "yellow", "sType": "green", "zType": "red", "tType": "magenta"}) 
         self.__initWindow()
         self.root.mainloop()
 
@@ -56,11 +57,11 @@ class Interface():
         if self.pause:
             self.pause = False
             self.pauseLabel.grid_remove()
-            self.root.bind("<Down>",self.down)
-            self.root.bind("<Right>",self.right)
-            self.root.bind("<Left>",self.left)
-            self.root.bind("<Up>",self.clockwise)
-            self.root.bind("<space>",self.downAll)
+            self.root.bind("<Down>",self.__down)
+            self.root.bind("<Right>",self.__right)
+            self.root.bind("<Left>",self.__left)
+            self.root.bind("<Up>",self.__clockwise)
+            self.root.bind("<space>",self.__downAll)
             self.timer.start()
         else:
             self.pause = True
@@ -79,13 +80,6 @@ class Interface():
     def __paint(self, board):
         for i in range(0, 20):
             for j in range(0, 10):
-                label = self.board[i][j]
-                if board[i][j]:
-                    if board[i][j] == "inactive":
-                        label.configure(background='grey')
-                    else:
-                        label.configure(background='blue')
-                else:
-                    label.configure(background='white')
+                self.board[i][j].configure(background=self.colors[board[i][j]])
 
 

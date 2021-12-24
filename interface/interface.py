@@ -1,58 +1,58 @@
 from tkinter import *
-import maude
-from random import seed
-from random import randint
 from interface.repeatedTimer import RepeatedTimer
+from interface.tetrisPerformer import TetrisPerformer
+from random import randint
+from random import seed
+import time
 
 class Interface():
     def __init__(self):
-        maude.init()
-        maude.load("logic/loads.maude")
         self.root = Tk()
+        seed(int(time.time() * 1000))
+        self.timer = RepeatedTimer(0.7, self.__down, None)
+        self.performer = TetrisPerformer(initialRandom=randint(0, 6))
+        self.__initWindow()
+        self.root.mainloop()
+
+    def __initWindow(self):
         self.root.geometry('500x760')
         self.root.configure(background = 'beige')
         self.root.title('Tetris');
-        self.root.bind("<Down>",self.down)
-        self.root.bind("<Right>",self.right)
-        self.root.bind("<Left>",self.left)
-        self.root.bind("<Up>",self.clockwise)
-        self.root.bind("<space>",self.downAll)
-        self.root.bind("<Escape>", self.pause)
-        self.pause = False
-        self.initialTerm = "{ < ${board} > | ${rule} }"
-        self.maudeBoard = "randomPiece(" + str(randint(0, 6)) + ")"
-        self.tetris = maude.getModule('TETRIS')
-        self.timer = RepeatedTimer(0.7, self.down, None)
-        seed(1)
+        self.root.bind("<Down>",self.__down)
+        self.root.bind("<Right>",self.__right)
+        self.root.bind("<Left>",self.__left)
+        self.root.bind("<Up>",self.__clockwise)
+        self.root.bind("<space>",self.__downAll)
+        self.root.bind("<Escape>", self.__pause)
         self.board = [ [ None for i in range(10) ] for j in range(20) ]
         for i in range(0, 20):
             for j in range(0, 10):
                 label = Label(self.root, width=4, height=2,relief=SOLID, background='white')
                 label.grid(row=i, column=j)
                 self.board[i][j] = label
+        self.pause = False
         self.pauseLabel = Label(self.root, text="PAUSA", background="beige", foreground="black", font=("Verdana",22))
         self.pauseLabel.grid(row=10, column=20)
         self.pauseLabel.grid_remove()
-        self.root.mainloop()
     
-    def down(self, event):
+    def __down(self, event):
         rule = "down(" + str(randint(0, 6)) + ")"
-        self.execute(rule)
+        self.__execute(rule)
 
-    def downAll(self, event):
+    def __downAll(self, event):
         rule = "downAll(" + str(randint(0, 6)) + ")"
-        self.execute(rule)
+        self.__execute(rule)
 
-    def right(self, event):
-        self.execute("right")
+    def __right(self, event):
+        self.__execute("right")
 
-    def left(self, event):
-        self.execute("left")
+    def __left(self, event):
+        self.__execute("left")
     
-    def clockwise(self, event):
-        self.execute("clockwise")
+    def __clockwise(self, event):
+        self.__execute("clockwise")
 
-    def pause(self, event):
+    def __pause(self, event):
         if self.pause:
             self.pause = False
             self.pauseLabel.grid_remove()
@@ -72,34 +72,11 @@ class Interface():
             self.root.unbind("<space>")
             self.timer.stop()
     
-    def execute(self, rule):
-        term = self.initialTerm.replace("${board}", self.maudeBoard).replace("${rule}", rule)
-        parseTerm = self.tetris.parseTerm(term)
-        parseTerm.rewrite(1)
-        self.maudeBoard = self.termToBoard(parseTerm)
-        self.paint(self.boardToMatrix(self.maudeBoard))
-
-    def termToBoard(self, term):
-        term = str(term)
-        return term[term.find("<")+len("<"):term.rfind(">")]
+    def __execute(self, rule):
+        matrix = self.performer.perform(rule)
+        self.__paint(matrix)
     
-    def boardToMatrix(self, board):
-        newBoard = [ [ None for i in range(10) ] for j in range(20) ]
-        pieces = board.split("/")
-        for piece in pieces:
-            pieceSplit = piece.split("|")
-            status = pieceSplit[1].replace(" ", "").replace("]", "")
-            positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
-            for position in positions:
-                if position != "emptyPositionList" and  position.startswith("("):
-                    x, y = position.replace("(", "").replace(")", "").split(",")
-                    x = int(x)
-                    y = int(y)
-                    if x <= 19 and y <= 9:
-                        newBoard[x][y] = status
-        return newBoard
-    
-    def paint(self, board):
+    def __paint(self, board):
         for i in range(0, 20):
             for j in range(0, 10):
                 label = self.board[i][j]

@@ -9,7 +9,7 @@ class Interface():
         maude.init()
         maude.load("logic/loads.maude")
         self.root = Tk()
-        self.root.geometry('420x760')
+        self.root.geometry('500x760')
         self.root.configure(background = 'beige')
         self.root.title('Tetris');
         self.root.bind("<Down>",self.down)
@@ -17,10 +17,12 @@ class Interface():
         self.root.bind("<Left>",self.left)
         self.root.bind("<Up>",self.clockwise)
         self.root.bind("<space>",self.downAll)
+        self.root.bind("<Escape>", self.pause)
+        self.pause = False
         self.initialTerm = "{ < ${board} > | ${rule} }"
         self.maudeBoard = "[(21, 21) | inactive] / randomPiece(" + str(randint(0, 6)) + ")"
         self.tetris = maude.getModule('TETRIS')
-        self.timer = RepeatedTimer(1, self.down, None)
+        self.timer = RepeatedTimer(0.7, self.down, None)
         seed(1)
         self.board = [ [ None for i in range(10) ] for j in range(20) ]
         for i in range(0, 20):
@@ -28,6 +30,9 @@ class Interface():
                 label = Label(self.root, width=4, height=2,relief=SOLID, background='white')
                 label.grid(row=i, column=j)
                 self.board[i][j] = label
+        self.pauseLabel = Label(self.root, text="PAUSA", background="beige", foreground="black", font=("Verdana",22))
+        self.pauseLabel.grid(row=10, column=20)
+        self.pauseLabel.grid_remove()
         self.root.mainloop()
     
     def down(self, event):
@@ -46,6 +51,26 @@ class Interface():
     
     def clockwise(self, event):
         self.execute("clockwise")
+
+    def pause(self, event):
+        if self.pause:
+            self.pause = False
+            self.pauseLabel.grid_remove()
+            self.root.bind("<Down>",self.down)
+            self.root.bind("<Right>",self.right)
+            self.root.bind("<Left>",self.left)
+            self.root.bind("<Up>",self.clockwise)
+            self.root.bind("<space>",self.downAll)
+            self.timer.start()
+        else:
+            self.pause = True
+            self.pauseLabel.grid()
+            self.root.unbind("<Down>")
+            self.root.unbind("<Right>")
+            self.root.unbind("<Left>")
+            self.root.unbind("<Up>")
+            self.root.unbind("<space>")
+            self.timer.stop()
     
     def execute(self, rule):
         term = self.initialTerm.replace("${board}", self.maudeBoard).replace("${rule}", rule)

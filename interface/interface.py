@@ -3,7 +3,6 @@ from interface.repeatedTimer import RepeatedTimer
 from interface.tetrisPerformer import TetrisPerformer
 from random import randint
 from random import seed
-from PIL import Image, ImageTk
 import time
 
 class Interface():
@@ -147,7 +146,3 @@ class Interface():
         self.next3.grid(row=self.piezePosition[next][2][0], column=self.piezePosition[next][2][1])
         self.next4.configure(background=self.colorsPieze[next])
         self.next4.grid(row=self.piezePosition[next][3][0], column=self.piezePosition[next][3][1])
-
-
-
-

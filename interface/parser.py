@@ -8,9 +8,13 @@ class Parser():
         newBoard = [ [ "empty" for i in range(10) ] for j in range(20) ]
         pieces = board.split("/")
         score = 0
+        next = 0
         for piece in pieces:
             if "score" in piece:
                 score = int(piece.replace(" ", "").replace("score(", "").replace(")", ""))
+                continue
+            if "next" in piece:
+                next = int(piece.replace(" ", "").replace("next(", "").replace(")", ""))
                 continue
             pieceSplit = piece.split("|")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
@@ -21,4 +25,4 @@ class Parser():
                     x = int(x)
                     y = int(y)
                     newBoard[x][y] = type
-        return newBoard, score
+        return newBoard, score, next

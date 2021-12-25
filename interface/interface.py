@@ -3,20 +3,32 @@ from interface.repeatedTimer import RepeatedTimer
 from interface.tetrisPerformer import TetrisPerformer
 from random import randint
 from random import seed
+from PIL import Image, ImageTk
 import time
 
 class Interface():
     def __init__(self):
         self.root = Tk()
         seed(int(time.time() * 10000))
-        self.timer = RepeatedTimer(0.7, self.__down, None)
-        self.performer = TetrisPerformer(initialRandom=randint(0, 6))
+        self.timer = RepeatedTimer(0.6, self.__down, None)
+        initalRandom = randint(0, 6)
+        nextRandom = randint(0, 6)
+        self.performer = TetrisPerformer(initialRandom=initalRandom, nextRandom=nextRandom)
         self.colors = dict({"empty": "white", "iType": "cyan", "jType": "blue", "lType": "orange", "oType": "yellow", "sType": "green", "zType": "red", "tType": "magenta"}) 
-        self.__initWindow()
+        self.colorsPieze = dict({0: "cyan", 1: "blue", 2: "orange", 3: "yellow", 4: "green", 5: "red", 6: "magenta"})
+        self.piezePosition = dict({
+            0: [(1,21), (1,22), (1,23), (1,24)], 
+            1: [(1,21), (2,21), (2,22), (2,23)], 
+            2: [(1,23), (2,21), (2,22), (2,23)],
+            3: [(1,21), (1,22), (2,21), (2,22)], 
+            4: [(1,22), (1,23), (2,21), (2,22)], 
+            5: [(1,21), (1,22), (2,22), (2,23)], 
+            6: [(1,22), (2,21), (2,22), (2,23)]}) 
+        self.__initWindow(nextRandom=nextRandom)
         self.root.mainloop()
 
-    def __initWindow(self):
-        self.root.geometry('485x720')
+    def __initWindow(self, nextRandom):
+        self.root.geometry('640x720')
         self.root.configure(background = 'beige')
         self.root.title('Tetris');
         self.root.bind("<Down>",self.__down)
@@ -32,7 +44,7 @@ class Interface():
                 label.grid(row=i, column=j)
                 self.board[i][j] = label
         self.pause = False
-        self.pauseLabel = Label(self.root, text="PAUSA", background="beige", foreground="black", font=("Verdana",22))
+        self.pauseLabel = Label(self.root, text="PAUSA", background="beige", foreground="black", font=("Verdana",18))
         self.pauseLabel.grid(row=10, column=20)
         self.pauseLabel.grid_remove()
 
@@ -41,6 +53,15 @@ class Interface():
 
         self.scoreLabel = Label(self.root, text="0", background="beige", foreground="black", font=("Verdana",19))
         self.scoreLabel.grid(row=8, column=20)
+
+        self.next1 = Label(self.root, width=4, height=2,relief=SOLID, border=1, background=self.colorsPieze[nextRandom])
+        self.next1.grid(row=self.piezePosition[nextRandom][0][0], column=self.piezePosition[nextRandom][0][1])
+        self.next2 = Label(self.root, width=4, height=2,relief=SOLID, border=1, background=self.colorsPieze[nextRandom])
+        self.next2.grid(row=self.piezePosition[nextRandom][1][0], column=self.piezePosition[nextRandom][1][1])
+        self.next3 = Label(self.root, width=4, height=2,relief=SOLID, border=1, background=self.colorsPieze[nextRandom])
+        self.next3.grid(row=self.piezePosition[nextRandom][2][0], column=self.piezePosition[nextRandom][2][1])
+        self.next4 = Label(self.root, width=4, height=2,relief=SOLID, border=1, background=self.colorsPieze[nextRandom])
+        self.next4.grid(row=self.piezePosition[nextRandom][3][0], column=self.piezePosition[nextRandom][3][1])
     
     def __down(self, event):
         rule = "down(" + str(randint(0, 6)) + ")"
@@ -80,13 +101,26 @@ class Interface():
             self.timer.stop()
     
     def __execute(self, rule):
-        matrix, score = self.performer.perform(rule)
-        self.__paint(matrix, score)
+        matrix,score,next = self.performer.perform(rule)
+        self.__paint(matrix, score, next)
     
-    def __paint(self, board, score):
+    def __paint(self, board, score, next):
+        self.__paintNext(next=next)
         self.scoreLabel.configure(text=score)
         for i in range(0, 20):
             for j in range(0, 10):
                 self.board[i][j].configure(background=self.colors[board[i][j]])
+    
+    def __paintNext(self, next):
+        self.next1.configure(background=self.colorsPieze[next])
+        self.next1.grid(row=self.piezePosition[next][0][0], column=self.piezePosition[next][0][1])
+        self.next2.configure(background=self.colorsPieze[next])
+        self.next2.grid(row=self.piezePosition[next][1][0], column=self.piezePosition[next][1][1])
+        self.next3.configure(background=self.colorsPieze[next])
+        self.next3.grid(row=self.piezePosition[next][2][0], column=self.piezePosition[next][2][1])
+        self.next4.configure(background=self.colorsPieze[next])
+        self.next4.grid(row=self.piezePosition[next][3][0], column=self.piezePosition[next][3][1])
+
+
 
 

@@ -6,6 +6,7 @@ fmod BOARD is
 
     op emptyBoard : -> Board [ctor] .
     op score : Nat -> Board [ctor] .
+    op next : Nat -> Board [ctor] .
     op _/_ : Board Board -> Board [ctor assoc comm id: emptyBoard] .
 
     vars x y : Int .
@@ -14,7 +15,7 @@ fmod BOARD is
     var n : Nat .
     var piece : Piece .
     var pieceType pieceType' : PieceType .
-    var sc : Nat .
+    vars sc nxt : Nat .
 
     op inactiveInTop : Board -> Bool .
     eq inactiveInTop([(0, y) \ positionList | inactive | pieceType] / b) = true .
@@ -60,12 +61,12 @@ fmod BOARD is
         else
             [positionList | inactive | pieceType] / b
         fi .
-    eq down(b, n) =
+    eq down(b / next(nxt), n) =
         if inactiveInTop(b) 
         then
-            initialBoard(n)
+            initialBoard(n, nxt)
         else
-            performDelete(b, 0) / randomPiece(n)
+            performDelete(b, 0) / randomPiece(nxt) / next(n)
         fi [owise] .
 
     op downAll : Board Nat -> Board .
@@ -122,7 +123,7 @@ fmod BOARD is
             [positionList | active | pieceType] / b
         fi .
 
-    op initialBoard : Nat -> Board .
-    eq initialBoard(n) = randomPiece(n) / score(0) .
+    op initialBoard : Nat Nat -> Board .
+    eq initialBoard(n, nxt) = randomPiece(n) / score(0) / next(nxt) .
 
 endfm

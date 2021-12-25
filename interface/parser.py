@@ -7,7 +7,11 @@ class Parser():
     def boardToMatrix(self, board):
         newBoard = [ [ "empty" for i in range(10) ] for j in range(20) ]
         pieces = board.split("/")
+        score = 0
         for piece in pieces:
+            if "score" in piece:
+                score = int(piece.replace(" ", "").replace("score(", "").replace(")", ""))
+                continue
             pieceSplit = piece.split("|")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
             type = pieceSplit[2].replace(" ", "").replace("]", "")
@@ -17,4 +21,4 @@ class Parser():
                     x = int(x)
                     y = int(y)
                     newBoard[x][y] = type
-        return newBoard
+        return newBoard, score

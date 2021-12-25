@@ -5,6 +5,7 @@ fmod BOARD is
     subsort Piece < Board .
 
     op emptyBoard : -> Board [ctor] .
+    op score : Nat -> Board [ctor] .
     op _/_ : Board Board -> Board [ctor assoc comm id: emptyBoard] .
 
     vars x y : Int .
@@ -13,6 +14,7 @@ fmod BOARD is
     var n : Nat .
     var piece : Piece .
     var pieceType pieceType' : PieceType .
+    var sc : Nat .
 
     op inactiveInTop : Board -> Bool .
     eq inactiveInTop([(0, y) \ positionList | inactive | pieceType] / b) = true .
@@ -28,12 +30,12 @@ fmod BOARD is
         fi .
 
     op performDeleteLine : Board Nat -> Board .
-    eq performDeleteLine(b, n) =
+    eq performDeleteLine(score(sc) / b, n) =
         if countInactiveInRow(b, n) == 10
         then
-            deleteInactiveInRow(b, n)
+            deleteInactiveInRow(b, n) / score(sc + 100)
         else
-            b
+            b / score(sc)
         fi .
 
     op countInactiveInRow : Board Nat -> Nat .
@@ -121,6 +123,6 @@ fmod BOARD is
         fi .
 
     op initialBoard : Nat -> Board .
-    eq initialBoard(n) = randomPiece(n) .
+    eq initialBoard(n) = randomPiece(n) / score(0) .
 
 endfm

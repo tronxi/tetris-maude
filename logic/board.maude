@@ -64,7 +64,7 @@ fmod BOARD is
     eq down(b / next(nxt), n) =
         if inactiveInTop(b) 
         then
-            initialBoard(n, nxt)
+            initialBoard(nxt, n)
         else
             performDelete(b, 0) / randomPiece(nxt) / next(n)
         fi [owise] .

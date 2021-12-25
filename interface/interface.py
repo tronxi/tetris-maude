@@ -8,7 +8,7 @@ import time
 class Interface():
     def __init__(self):
         self.root = Tk()
-        seed(int(time.time() * 1000))
+        seed(int(time.time() * 10000))
         self.timer = RepeatedTimer(0.7, self.__down, None)
         self.performer = TetrisPerformer(initialRandom=randint(0, 6))
         self.colors = dict({"empty": "white", "iType": "cyan", "jType": "blue", "lType": "orange", "oType": "yellow", "sType": "green", "zType": "red", "tType": "magenta"}) 

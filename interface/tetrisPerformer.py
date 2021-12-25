@@ -7,7 +7,9 @@ class TetrisPerformer():
         maude.load("logic/loads.maude")
         self.tetris = maude.getModule('TETRIS')
         self.initialTerm = "{ < ${board} > | ${rule} }"
-        self.maudeBoard = "randomPiece(" + str(initialRandom) + ")"
+        initialBoard = self.tetris.parseTerm("initialBoard(" + str(initialRandom) + ")")
+        initialBoard.reduce()
+        self.maudeBoard = str(initialBoard)
         self.parser = Parser()
 
     def perform(self, rule):

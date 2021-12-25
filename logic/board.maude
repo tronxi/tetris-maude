@@ -61,7 +61,7 @@ fmod BOARD is
     eq down(b, n) =
         if inactiveInTop(b) 
         then
-            initialBoard
+            initialBoard(n)
         else
             performDelete(b, 0) / randomPiece(n)
         fi [owise] .
@@ -120,7 +120,7 @@ fmod BOARD is
             [positionList | active | pieceType] / b
         fi .
 
-    op initialBoard : -> Board .
-    eq initialBoard = randomPiece(4) .
+    op initialBoard : Nat -> Board .
+    eq initialBoard(n) = randomPiece(n) .
 
 endfm

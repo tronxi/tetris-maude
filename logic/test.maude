@@ -16,13 +16,14 @@ mod TEST is
     op board : -> Board .
     eq board = [(0,5) \ (0,6) \ (0,7) \ (0,8) | active | tType]
                 / [(1,4) \ (1,5) \ (1,6) \ (1,7) | inactive | jType] .
+                --- / hold(0) .
                 --- / [(0,0) \ (0,1) \ (0,2) \ (0,3) | inactive] .
     
 endm
 --- red left(position) .
 --- red down(piece) .
 --- red right(piece) .
-red canDown(board) .
+red deleteInactiveInRow(board, 1) .
 --- red countInactiveInRowForPiece(piece, 19) .
 --- red downPieceGreaterThanRow(piece, 10) .
 --- red deleteInactiveInRow(board, 19) .

@@ -7,6 +7,7 @@ fmod BOARD is
     op emptyBoard : -> Board [ctor] .
     op score : Nat -> Board [ctor] .
     op next : Nat -> Board [ctor] .
+    op hold : Nat -> Board [ctor] .
     op _/_ : Board Board -> Board [ctor assoc comm id: emptyBoard] .
 
     vars x y : Int .
@@ -15,7 +16,7 @@ fmod BOARD is
     var n : Nat .
     var piece : Piece .
     var pieceType pieceType' : PieceType .
-    vars sc nxt : Nat .
+    vars sc nxt hd : Nat .
 
     op inactiveInTop : Board -> Bool .
     eq inactiveInTop([(0, y) \ positionList | inactive | pieceType] / b) = true .
@@ -41,11 +42,11 @@ fmod BOARD is
 
     op countInactiveInRow : Board Nat -> Nat .
     eq countInactiveInRow(piece / b, n) = countInactiveInRowForPiece(piece, n) + countInactiveInRow(b, n) .
-    eq countInactiveInRow(emptyBoard, n) = 0 .
+    eq countInactiveInRow(b, n) = 0 [owise] .
 
     op deleteInactiveInRow : Board Nat -> Board .
     eq deleteInactiveInRow(piece / b, n) = downPieceGreaterThanRow(deleteInactiveInRowForPiece(piece, n),n) / deleteInactiveInRow(b, n) .
-    eq deleteInactiveInRow(emptyBoard, n) = emptyBoard .
+    eq deleteInactiveInRow(b, n) = b [owise] .
 
     op cleanEmpty : Board -> Board .
     eq cleanEmpty([emptyPositionList | inactive | pieceType] / b) = cleanEmpty(b) .
@@ -127,7 +128,12 @@ fmod BOARD is
             [positionList | active | pieceType] / b
         fi .
 
+    op performHold : Board -> Board .
+    eq performHold([positionList | active | pieceType] / hold(hd) / b) =
+        b / randomPiece(hd) / hold(natByPiece(pieceType)) .
+    eq performHold(b) = b [owise]  .
+
     op initialBoard : Nat Nat -> Board .
-    eq initialBoard(n, nxt) = randomPiece(n) / score(0) / next(nxt) .
+    eq initialBoard(n, nxt) = randomPiece(n) / score(0) / next(nxt) / hold(0) .
 
 endfm

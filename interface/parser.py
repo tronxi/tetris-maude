@@ -9,18 +9,28 @@ class Parser():
         pieces = board.split("/")
         score = 0
         next = 0
+        hold = 0
         for piece in pieces:
+            if "hold" in piece:
+                try:
+                    hold = int(piece.replace(" ", "").replace("hold(", "").replace(")", ""))
+                    continue
+                except:
+                    print("error")
+                    continue
             if "score" in piece:
                 try:
                     score = int(piece.replace(" ", "").replace("score(", "").replace(")", ""))
                     continue
                 except:
+                    print("error")
                     continue
             if "next" in piece:
                 try:
                     next = int(piece.replace(" ", "").replace("next(", "").replace(")", ""))
                     continue
                 except:
+                    print("error")
                     continue
             pieceSplit = piece.split("|")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
@@ -34,4 +44,4 @@ class Parser():
                         newBoard[x][y] = type
                     except:
                         print("error")
-        return newBoard, score, next
+        return newBoard, score, next, hold

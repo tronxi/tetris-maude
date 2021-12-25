@@ -115,5 +115,13 @@ fmod PIECE is
     eq randomPiece(5) = zBlock .
     eq randomPiece(6) = tBlock .
 
+    op natByPiece : PieceType -> Nat .
+    eq natByPiece(iType) = 0 .
+    eq natByPiece(jType) = 1 .
+    eq natByPiece(lType) = 2 .
+    eq natByPiece(oType) = 3 .
+    eq natByPiece(sType) = 4 .
+    eq natByPiece(zType) = 5 .
+    eq natByPiece(tType) = 6 .
 
 endfm

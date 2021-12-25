@@ -10,7 +10,9 @@ class Interface():
     def __init__(self):
         self.root = Tk()
         seed(int(time.time() * 10000))
-        self.timer = RepeatedTimer(0.6, self.__down, None)
+        self.time = 0.5
+        self.score = 0
+        self.timer = RepeatedTimer(self.time, self.__down, None)
         initalRandom = randint(0, 6)
         nextRandom = randint(0, 6)
         self.performer = TetrisPerformer(initialRandom=initalRandom, nextRandom=nextRandom)
@@ -102,14 +104,39 @@ class Interface():
     
     def __execute(self, rule):
         matrix,score,next = self.performer.perform(rule)
+        self.__updateTime(score)
         self.__paint(matrix, score, next)
+
+    def __updateTime(self, score):
+        if score != self.score:
+            if score == 0:
+                time = 0.5
+            elif score >= 1000 and score < 2000:
+                time = 0.4
+            elif score >= 2000 and score < 3000:
+                time = 0.3
+            elif score >= 3000 and score < 4000:
+                time = 0.2
+            elif score >= 4000:
+                time = 0.1
+            else:
+                time = 0.5
+            self.score = score
+            if time != self.time:
+                self.time = time
+                self.timer.stop()
+                self.timer = RepeatedTimer(self.time, self.__down, None)
     
     def __paint(self, board, score, next):
         self.__paintNext(next=next)
         self.scoreLabel.configure(text=score)
         for i in range(0, 20):
             for j in range(0, 10):
-                self.board[i][j].configure(background=self.colors[board[i][j]])
+                try:
+                    color = self.colors[board[i][j]]
+                    self.board[i][j].configure(background=color)
+                except:
+                    self.board[i][j].configure(background="white")
     
     def __paintNext(self, next):
         self.next1.configure(background=self.colorsPieze[next])

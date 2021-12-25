@@ -11,18 +11,27 @@ class Parser():
         next = 0
         for piece in pieces:
             if "score" in piece:
-                score = int(piece.replace(" ", "").replace("score(", "").replace(")", ""))
-                continue
+                try:
+                    score = int(piece.replace(" ", "").replace("score(", "").replace(")", ""))
+                    continue
+                except:
+                    continue
             if "next" in piece:
-                next = int(piece.replace(" ", "").replace("next(", "").replace(")", ""))
-                continue
+                try:
+                    next = int(piece.replace(" ", "").replace("next(", "").replace(")", ""))
+                    continue
+                except:
+                    continue
             pieceSplit = piece.split("|")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
             type = pieceSplit[2].replace(" ", "").replace("]", "")
             for position in positions:
                 if position != "emptyPositionList" and  position.startswith("("):
-                    x, y = position.replace("(", "").replace(")", "").split(",")
-                    x = int(x)
-                    y = int(y)
-                    newBoard[x][y] = type
+                    try:
+                        x, y = position.replace("(", "").replace(")", "").split(",")
+                        x = int(x)
+                        y = int(y)
+                        newBoard[x][y] = type
+                    except:
+                        print("error")
         return newBoard, score, next

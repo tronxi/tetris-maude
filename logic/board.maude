@@ -47,6 +47,10 @@ fmod BOARD is
     eq deleteInactiveInRow(piece / b, n) = downPieceGreaterThanRow(deleteInactiveInRowForPiece(piece, n),n) / deleteInactiveInRow(b, n) .
     eq deleteInactiveInRow(emptyBoard, n) = emptyBoard .
 
+    op cleanEmpty : Board -> Board .
+    eq cleanEmpty([emptyPositionList | inactive | pieceType] / b) = cleanEmpty(b) .
+    eq cleanEmpty(b) = b [owise] .
+
     op canDown : Board -> Bool .
     eq canDown([(x, y) \ positionList | active | pieceType] / [(s(x), y) \ positionList' | inactive | pieceType'] / b) 
                 = false .
@@ -66,7 +70,7 @@ fmod BOARD is
         then
             initialBoard(nxt, n)
         else
-            performDelete(b, 0) / randomPiece(nxt) / next(n)
+            cleanEmpty(performDelete(b, 0)) / randomPiece(nxt) / next(n)
         fi [owise] .
 
     op downAll : Board Nat -> Board .

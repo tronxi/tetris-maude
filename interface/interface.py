@@ -16,7 +16,7 @@ class Interface():
         self.root.mainloop()
 
     def __initWindow(self):
-        self.root.geometry('500x760')
+        self.root.geometry('485x720')
         self.root.configure(background = 'beige')
         self.root.title('Tetris');
         self.root.bind("<Down>",self.__down)
@@ -28,7 +28,7 @@ class Interface():
         self.board = [ [ None for i in range(10) ] for j in range(20) ]
         for i in range(0, 20):
             for j in range(0, 10):
-                label = Label(self.root, width=4, height=2,relief=SOLID, background='white')
+                label = Label(self.root, width=4, height=2,relief=SOLID, border=1, background='white')
                 label.grid(row=i, column=j)
                 self.board[i][j] = label
         self.pause = False

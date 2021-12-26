@@ -98,6 +98,8 @@ class Interface():
     def __downAll(self, event):
         rule = "downAll(" + str(randint(0, 6)) + ")"
         self.__execute(rule)
+        rule = "down(" + str(randint(0, 6)) + ")"
+        self.__execute(rule)
 
     def __right(self, event):
         self.__execute("right")

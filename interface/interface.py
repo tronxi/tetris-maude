@@ -48,8 +48,8 @@ class Interface():
         self.root.bind("<Escape>", self.__pause)
         self.root.bind("<c>", self.__hold)
         self.root.bind("<C>", self.__hold)
-        self.root.bind("<z>", self.__antiClockwise)
-        self.root.bind("<Z>", self.__antiClockwise)
+        self.root.bind("<z>", self.__anticlockwise)
+        self.root.bind("<Z>", self.__anticlockwise)
         self.board = [ [ None for i in range(10) ] for j in range(20) ]
         for i in range(0, 20):
             for j in range(0, 10):
@@ -108,8 +108,8 @@ class Interface():
     def __clockwise(self, event):
         self.__execute("clockwise")
 
-    def __antiClockwise(self, event):
-        self.__execute("antiClockwise")
+    def __anticlockwise(self, event):
+        self.__execute("anticlockwise")
     
     def __hold(self, event):
         self.__execute("hold")
@@ -125,8 +125,8 @@ class Interface():
             self.root.bind("<space>",self.__downAll)
             self.root.bind("<c>", self.__hold)
             self.root.bind("<C>", self.__hold)
-            self.root.bind("<z>", self.__antiClockwise)
-            self.root.bind("<Z>", self.__antiClockwise)
+            self.root.bind("<z>", self.__anticlockwise)
+            self.root.bind("<Z>", self.__anticlockwise)
             self.timer.start()
         else:
             self.pause = True

@@ -109,34 +109,34 @@ fmod POSITION is
         orderedPostionList [owise] .
 
 
-    op antiClockwise : PositionList -> PositionList .
-    eq antiClockwise(positionList) = orderedToList(antiClockwiseRotation(setUnorderd(positionList, emptyOrderPositionList)), emptyPositionList) .
+    op anticlockwise : PositionList -> PositionList .
+    eq anticlockwise(positionList) = orderedToList(anticlockwiseRotation(setUnorderd(positionList, emptyOrderPositionList)), emptyPositionList) .
 
-    op antiClockwiseRotation : OrderedPostionList -> OrderedPostionList .
+    op anticlockwiseRotation : OrderedPostionList -> OrderedPostionList .
 
-        --- iBlock
-    eq antiClockwiseRotation((x,y) % (x, s(y)) % (x, s(s(y))) % (x,s(s(s(y))))) =
+    --- iBlock
+    eq anticlockwiseRotation((x,y) % (x, s(y)) % (x, s(s(y))) % (x,s(s(s(y))))) =
         (x - 2,s(s(y))) % (x - 1, s(s(y))) % (x, s(s(y))) % (s(x),s(s(y))) .
 
-    eq antiClockwiseRotation((x,y) % (s(x), y) % (s(s(x)), y) % (s(s(s(x))),y)) =
+    eq anticlockwiseRotation((x,y) % (s(x), y) % (s(s(x)), y) % (s(s(s(x))),y)) =
         (s(s(x)), y - 2) % (s(s(x)), y - 1) % (s(s(x)), y) % (s(s(x)), s(y)) .
 
     --- sBlock
-    eq antiClockwiseRotation((x,s(y)) % (x, s(s(y))) % (s(x), y) % (s(x), s(y) )) =
+    eq anticlockwiseRotation((x,s(y)) % (x, s(s(y))) % (s(x), y) % (s(x), s(y) )) =
         (x - 1, y) % (x, y) % (x, s(y)) % (s(x), s(y)) .
 
-    eq antiClockwiseRotation((x,y) % (s(x), y) % (s(x), s(y)) % (s(s(x)), s(y))) =
+    eq anticlockwiseRotation((x,y) % (s(x), y) % (s(x), s(y)) % (s(s(x)), s(y))) =
         (s(s(x)), y) % (s(s(x)), s(y)) % (s(x), s(y)) % (s(x), s(s(y))) .
 
     --- zBlock
-    eq antiClockwiseRotation((x,y) % (x, s(y)) % (s(x), s(y)) % (s(x), s(s(y)))) =
+    eq anticlockwiseRotation((x,y) % (x, s(y)) % (s(x), s(y)) % (s(x), s(s(y)))) =
         (x - 1, s(s(y))) % (x, s(s(y))) % (x, s(y)) % (s(x), s(y)) .
 
-    eq antiClockwiseRotation((x, s(y)) % (s(x), y) % (s(x), s(y)) % (s(s(x)), y)) =
+    eq anticlockwiseRotation((x, s(y)) % (s(x), y) % (s(x), s(y)) % (s(s(x)), y)) =
         (s(x), y - 1) % (s(x), y) % (s(s(x)), y) % (s(s(x)), s(y)) .
 
     --- default
-    eq antiClockwiseRotation(orderedPostionList) =
+    eq anticlockwiseRotation(orderedPostionList) =
         orderedPostionList [owise] .
 
 

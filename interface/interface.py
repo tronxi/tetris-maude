@@ -9,7 +9,8 @@ class Interface():
     def __init__(self):
         self.root = Tk()
         seed(int(time.time() * 10000))
-        self.time = 0.5
+        self.initialTime = 0.5
+        self.time = self.initialTime
         self.score = 0
         self.timer = RepeatedTimer(self.time, self.__down, None)
         initalRandom = randint(0, 6)
@@ -152,7 +153,7 @@ class Interface():
     def __updateTime(self, score):
         if score != self.score:
             if score == 0:
-                time = 0.5
+                time = self.initialTime
             elif score >= 1000 and score < 2000:
                 time = 0.4
             elif score >= 2000 and score < 3000:
@@ -162,7 +163,7 @@ class Interface():
             elif score >= 4000:
                 time = 0.1
             else:
-                time = 0.5
+                time = self.initialTime
             self.score = score
             if time != self.time:
                 self.time = time

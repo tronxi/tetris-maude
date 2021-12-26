@@ -61,13 +61,13 @@ class Interface():
         self.pauseLabel.grid(row=10, column=20)
         self.pauseLabel.grid_remove()
 
-        self.scoreTextLabel = Label(self.root, text="Score", background="beige", foreground="black", font=("Verdana",22))
+        self.scoreTextLabel = Label(self.root, text="Score", background="beige", foreground="black", font=("Verdana",18))
         self.scoreTextLabel.grid(row=7, column=20)
 
         self.scoreLabel = Label(self.root, text="0", background="beige", foreground="black", font=("Verdana",19))
         self.scoreLabel.grid(row=8, column=20)
 
-        self.nextLabel = Label(self.root, text="Next:", background="beige", foreground="black", font=("Verdana",18))
+        self.nextLabel = Label(self.root, text="Next", background="beige", foreground="black", font=("Verdana",18))
         self.nextLabel.grid(row=0, column=20)
 
         self.next1 = Label(self.root, width=4, height=2,relief=SOLID, border=1, background=self.colorsPieze[nextRandom])
@@ -79,7 +79,7 @@ class Interface():
         self.next4 = Label(self.root, width=4, height=2,relief=SOLID, border=1, background=self.colorsPieze[nextRandom])
         self.next4.grid(row=self.piezePosition[nextRandom][3][0], column=self.piezePosition[nextRandom][3][1])
 
-        self.holdLabel = Label(self.root, text="Hold:", background="beige", foreground="black", font=("Verdana",18))
+        self.holdLabel = Label(self.root, text="Hold", background="beige", foreground="black", font=("Verdana",18))
         self.holdLabel.grid(row=11, column=20)
 
         self.hold1 = Label(self.root, width=4, height=2,relief=SOLID, border=1, background=self.colorsPieze[0])

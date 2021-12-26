@@ -12,34 +12,22 @@ class Parser():
         hold = 0
         for piece in pieces:
             if "hold" in piece:
-                try:
-                    hold = int(piece.replace(" ", "").replace("hold(", "").replace(")", ""))
-                    continue
-                except:
-                    raise Exception()
+                hold = int(piece.replace(" ", "").replace("hold(", "").replace(")", ""))
+                continue
             if "score" in piece:
-                try:
-                    score = int(piece.replace(" ", "").replace("score(", "").replace(")", ""))
-                    continue
-                except:
-                    raise Exception()
+                score = int(piece.replace(" ", "").replace("score(", "").replace(")", ""))
+                continue
             if "next" in piece:
-                try:
-                    next = int(piece.replace(" ", "").replace("next(", "").replace(")", ""))
-                    continue
-                except:
-                    raise Exception()
+                next = int(piece.replace(" ", "").replace("next(", "").replace(")", ""))
+                continue
 
             pieceSplit = piece.split("|")
             positions = pieceSplit[0].replace(" ", "").replace("[", "").split("\\")
             type = pieceSplit[2].replace(" ", "").replace("]", "")
             for position in positions:
                 if position != "emptyPositionList" and  position.startswith("("):
-                    try:
-                        x, y = position.replace("(", "").replace(")", "").split(",")
-                        x = int(x)
-                        y = int(y)
-                        newBoard[x][y] = type
-                    except:
-                        raise Exception()
+                    x, y = position.replace("(", "").replace(")", "").split(",")
+                    x = int(x)
+                    y = int(y)
+                    newBoard[x][y] = type
         return newBoard, score, next, hold

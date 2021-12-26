@@ -127,6 +127,15 @@ fmod BOARD is
         else 
             [positionList | active | pieceType] / b
         fi .
+    
+    op rotateAnticlockwise : Board -> Board .
+    eq rotateAnticlockwise([positionList | active | pieceType] / b) =
+        if canRotate([positionList | active | pieceType] / b, rotateAnticlockwise([positionList | active | pieceType]))
+        then
+            rotateAnticlockwise([positionList | active | pieceType]) / b 
+        else 
+            [positionList | active | pieceType] / b
+        fi .
 
     op performHold : Board -> Board .
     eq performHold([positionList | active | pieceType] / hold(hd) / b) =

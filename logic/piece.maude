@@ -85,6 +85,10 @@ fmod PIECE is
     eq rotateClockwise ([positionList | active | pieceType]) = 
         [clockwise(positionList) | active | pieceType] .
 
+    op rotateAnticlockwise : Piece -> Piece .
+    eq rotateAnticlockwise ([positionList | active | pieceType]) = 
+        [antiClockwise(positionList) | active | pieceType] .
+
     op iBlock : -> Piece .
     eq iBlock = [(0,3) \ (0,4) \ (0,5) \ (0,6) | active | iType] .
 

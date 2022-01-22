@@ -38,7 +38,7 @@ class Interface():
         self.root.mainloop()
 
     def __initWindow(self, nextRandom):
-        self.root.geometry('600x720')
+        # self.root.geometry('600x720')
         self.root.configure(background = 'beige')
         self.root.title('Tetris');
         self.root.bind("<Down>",self.__down)
